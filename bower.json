@@ -1,0 +1,17 @@
+{
+  "name": "mythicalnature_remake",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Jeff <carlperelman1960@gmail.com> (http://mythicalnature.com/)"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
