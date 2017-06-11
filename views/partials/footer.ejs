@@ -1,0 +1,32 @@
+<div class="ui inverted vertical footer segment">
+  <div class="ui container">
+    <div class="ui stackable inverted divided equal height stackable grid">
+      <div class="three wide column">
+        <h4 class="ui inverted header">
+          About
+        </h4>
+        <div class="ui inverted link list">
+          <a class="item" href="#"> Sitemap</a><a class="item" href="#"> Contact Us</a>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header">
+          Games
+        </h4>
+        <div class="ui inverted link list">
+            <% for(var i=0; i < data.games.length; i++) { %>
+                <a class="item" href='<%= data.games[i].href %>'><%= data.games[i].name %></a>
+            <% } %>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <h4 class="ui inverted header">
+            <%= data.quote.title %>
+        </h4>
+        <p>
+            <%= data.quote.content %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
