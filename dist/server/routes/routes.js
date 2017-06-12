@@ -29,23 +29,38 @@ router.get('/', (req, res) => {
 
 router.get('/privacy', (req, res) => {
     res.render('../../views/pages/Privacy.ejs', {
-        data: [],
-        games: gameData
+        data: {
+            quote: getQuote(),
+            games: gameData
+        }
     })
 });
 
 router.get('/games', (req, res) => {
     res.render('../../views/pages/Games.ejs', {
-        data: [],
-        games: gameData
+        data: {
+            quote: getQuote(),
+            games: gameData
+        }
     })
 });
 
 router.get('/about', (req, res) => {
     res.render('../../views/pages/about.ejs', {
-        data: [],
-        games: gameData
+        data: {
+            quote: getQuote(),
+            games: gameData
+        }
     })
+});
+
+router.get('/games/:id', (req, res) => {
+
+});
+
+router.get('*', function(req, res) {
+    // res.redirect('/');
+    res.render('../../views/pages/404.ejs')
 });
 
 module.exports = router
