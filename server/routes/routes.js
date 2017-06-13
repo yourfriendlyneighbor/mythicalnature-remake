@@ -19,7 +19,7 @@ function getQuote(){
 
 router.get('/', (req, res) => {
     // Homepage
-    res.render('../../views/pages/index.ejs', {
+    res.render('pages/index.ejs', {
         data: {
             quote: getQuote(),
             games: gameData
@@ -28,24 +28,35 @@ router.get('/', (req, res) => {
 });
 
 router.get('/privacy', (req, res) => {
-    res.render('../../views/pages/Privacy.ejs', {
-        data: [],
-        games: gameData
+    res.render('pages/Privacy.ejs', {
+        data: {
+            quote: getQuote(),
+            games: gameData
+        }
     })
 });
 
 router.get('/games', (req, res) => {
-    res.render('../../views/pages/Games.ejs', {
-        data: [],
-        games: gameData
+    res.render('pages/Games.ejs', {
+        data: {
+            quote: getQuote(),
+            games: gameData
+        }
     })
 });
 
 router.get('/about', (req, res) => {
-    res.render('../../views/pages/about.ejs', {
-        data: [],
-        games: gameData
+    res.render('pages/about.ejs', {
+        data: {
+            quote: getQuote(),
+            games: gameData
+        }
     })
 });
+
+router.get('/games/:id', (req, res) => {
+
+});
+
 
 module.exports = router

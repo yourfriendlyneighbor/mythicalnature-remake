@@ -82,3 +82,115 @@
     font-size: 1.5em;
   }
 }
+
+.title-1{
+    background-color: #3498db;
+    color: #ecf0f1;
+    border-radius: 15px;
+    a{
+        color: #2c3e50
+    }
+}
+
+.at-floating-card {
+  z-index: 999999;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  background: #FFFFFF;
+  max-width: 440px;
+  border: 1px solid #EEEEEE;
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(#000, 0.12);
+  margin: 0 0 0 20px;
+  padding: 30px 20px;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &__thumbnail {
+    width: 80px;
+    max-width: 80px;
+    min-width: 80px;
+    border: 1px solid #EEEEEE;
+    border-radius: 25%;
+    margin: 0 20px 0 0;
+    padding: 4px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    padding: 0;
+    color: #444444;
+    font-size: 14px !important;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  &__sub-title {
+    margin: 0 0 6px;
+    padding: 0;
+    color: #999999;
+    font-size: 12px !important;
+    font-weight: 600;
+
+    a {
+      color: #CCCCCC;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+
+  &__description {
+    margin: 0 0 6px;
+    padding: 0;
+    color: #999999;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  &__footer {
+    color: #666666;
+    font-size: 12px;
+    font-weight: 600;
+
+    span {
+      margin: 0 4px;
+    }
+
+    a {
+      color: inherit;
+      font-size: 10px;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    text-align: center;
+
+    &__thumbnail {
+      margin: 0 0 20px;
+    }
+  }
+}
+
+.gi:hover{
+    -webkit-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -ms-transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+  opacity: 1;
+  transform: scale(1.15);
+  -ms-transform: scale(1.15); /* IE 9 */
+  -webkit-transform: scale(1.15); /* Safari and Chrome */
+}

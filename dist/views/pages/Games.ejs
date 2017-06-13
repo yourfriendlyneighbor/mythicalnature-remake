@@ -8,25 +8,57 @@
         <% include ../partials/navbar.ejs %>
 
         <!--Page Contents-->
-        <div class="pusher">
-          <div class="ui inverted vertical masthead center aligned segment">
+        <div class="ui inverted vertical center aligned segment">
             <div class="ui container">
-              <div class="ui large secondary inverted pointing menu">
-                <a class="toc item"><i class="sidebar icon"></i></a><a class="active item" href="/">Home</a><a class="item" href="/games">Games</a><a class="item" href="/about">About</a>
-              </div>
+                <div class="ui large secondary inverted pointing menu">
+                    <a class="toc item"><i class="sidebar icon"></i></a><a class="item" href="/">Home</a><a class="active item" href="/games">Games</a><a class="item" href="/about">About</a>
+                </div>
             </div>
-            <div class="ui text container">
-              <h1 class="ui inverted header">
-                Mythicalnature.com
-              </h1>
-              <h2>
-                Do whatever you want when you want to.
-              </h2>
-              <div class="ui huge primary button">
-                Start playing<i class="right arrow icon"></i>
-              </div>
+        </div>
+        <div class="ui container" style="margin-top: 3vh;margin-bottom: 3vh">
+            <div class="ui grid">
+                <div class="five wide column title-1">
+                    <h1>NEW GAMES <small><a href="#">See more ></a></small></h1>
+                </div>
+                <div class="sixteen wide column"></div>
+                <% for(var i=0; i < data.games.length; i++) { %>
+                    <div class="at-floating-card">
+                      <div class="at-floating-card__thumbnail">
+                         <img src="<%= data.games[i].thumbnail %>" alt="<%= data.games[i].name %>" class="ui image gi">
+                      </div>
+                      <div class="at-floating-card__content">
+                        <h2 class="at-floating-card__title"><%= data.games[i].name %></h2>
+                        <h3 class="at-floating-card__sub-title">Created by <%= data.games[i].author %></h3>
+                        <p class="at-floating-card__description"><%= data.games[i].description %></p>
+                        <div class="at-floating-card__footer">
+                            <a href="/games/<%= data.games[i].id %>">Link</a>
+                          <!-- <a href="https://andytran.me">Website</a>
+                          <span> &middot; </span> -->
+                        </div>
+                      </div>
+                    </div>
+                <% } %>
             </div>
-          </div>
+        </div>
+
+            <!-- <div class="ui top attached tabular menu">
+              <a class="item active" data-tab="first">First</a>
+              <a class="item" data-tab="second">Second</a>
+              <a class="item" data-tab="third">Third</a>
+            </div>
+            <div class="ui bottom attached tab segment active" data-tab="first">
+              First
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="second">
+              Second
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="third">
+              Third
+            </div> -->
+        </div>
+
+
+
     <% include ../partials/footer.ejs %>
     <% include ../partials/scripts.ejs %>
     </body>

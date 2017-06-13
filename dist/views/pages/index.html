@@ -1,0 +1,218 @@
+
+<title>Pong</title>
+<style>
+    body{
+        font-family: sans-serif;
+      -webkit-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+          background-color: #fffff1
+    }
+    canvas{
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0
+    }
+    small {
+      font-size: 80%;
+    }
+    h1{
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.1;
+        color: inherit;
+    }
+    h1 small{
+      font-weight: normal;
+      line-height: 1;
+      color: #777;
+    }
+    #score-container {
+        display: block;
+        width: 30%;
+        height: 60px;
+        margin: 0 auto;
+    }
+    .score {
+        position: relative;
+        width: calc(50% - 3px);
+        height: 60px;
+        float: left;
+        text-align: center;
+        line-height: 60px;
+        border: 2px solid #F3EFF5;
+        border-right: 1px solid #F3EFF5;
+        background-color: rgb(30, 98, 30);
+        font-size: 2em;
+        font-family: 'Roboto', sans-serif;
+    }
+    #ai {
+        float: right;
+        background-color: rgb(60, 196, 60)
+    }
+</style>
+<center><h1>Pong ~ <small>Made by Jonah Perelman</small></h1></center>
+<div id="score-container">
+     <div id="ai" class="score">0</div>
+
+     <div id="player" class="score">0</div>
+</div>
+<script type="text/javascript">
+    "use strict";
+    const WIDTH = 700, HEIGHT = 600, PI = Math.PI, UpArrow = 38, DownArrow = 40;
+    let canvas, ctx, keystate, player, ai, ball;
+
+    player = {
+        x: null,
+        y: null,
+        width: 20,
+        height: 100,
+        score: 0,
+        update:function(){
+            if(keystate[UpArrow]) this.y -= 7;
+            if(keystate[DownArrow]) this.y += 7
+            this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0)
+        },
+        draw: function(){
+            ctx.fillRect(this.x, this.y ,this.width, this.height)
+        }
+    }
+
+    ai = {
+        x: null,
+        y: null,
+        width: 20,
+        height: 100,
+        score: 0,
+        update:function(){
+            var desty = ball.y - (this.height - ball.side)*.5;
+            this.y += (desty - this.y) *.1
+            this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0)
+        },
+        draw: function(){
+            ctx.fillRect(this.x, this.y ,this.width, this.height)
+        }
+    }
+
+    ball = {
+        x: null,
+        y: null,
+        vel: null,
+        side: 20,
+        speed: 12,
+
+        serve: function(side){
+            var r = Math.random();
+            if(player.score === 0){
+                player.score++
+            }
+            if(side === 1){
+                ai.score++;
+                document.getElementById('ai').innerHTML = ai.score - 1
+            }else{
+                player.score++;
+                document.getElementById('player').innerHTML = player.score - 1
+            }
+
+            this.x = side === 1 ? player.x + player.width : ai.x - this.side;
+            this.y = (HEIGHT - this.side) * r;
+
+            var phi = 0.1*PI*(1 - 2*r);
+            this.vel = {
+                x: side*this.speed*Math.cos(phi),
+                y: this.speed*Math.sin(phi)
+            }
+        },
+        update:function(){
+            this.x += this.vel.x;
+            this.y += this.vel.y;
+
+            if(0 > this.y || this.y + this.side > HEIGHT){
+                var offset = this.vel.y < 0 ? 0 - this.y : HEIGHT - (this.y+this.side);
+                this.y += 2*offset
+                this.vel.y *= -1
+            }
+
+            var AABBIntersect = function(ax, ay, aw, ah, bx, by, bw, bh){
+                return ax < bx+bw && ay < by+bh && bx < ax+aw && by < ay+ah
+            },  pdle = this.vel.x < 0 ? player : ai;
+            if (AABBIntersect(pdle.x, pdle.y, pdle.width, pdle.height, this.x, this.y, this.side, this.side)){
+                this.x = pdle===player ? player.x+player.width: ai.x - this.side
+                var n = (this.y+this.side-pdle.y)/(pdle.height+this.side), phi =.25*PI*(2*n - 1);
+                var smash = Math.abs(phi) > 0.2*PI ? 1.5 : 1;
+
+                this.vel.x = smash * (pdle===player ? 1 : -1)*this.speed*Math.cos(phi);
+                this.vel.y = smash * this.speed*Math.sin(phi);
+            }
+
+            if(0 > this.x + this.side || this.x > WIDTH){
+                this.serve(pdle===player ? 1 : -1)
+            }
+        },
+        draw: function(){
+            ctx.fillRect(this.x, this.y ,this.side, this.side)
+        }
+    }
+
+    function index(){
+        canvas = document.createElement('canvas');
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
+        ctx = canvas.getContext('2d');
+        document.body.append(canvas);
+
+        keystate = {};
+        document.addEventListener('keydown', function(e) {
+            keystate[e.keyCode] = true
+        });
+        document.addEventListener('keyup', (e) => {
+            delete keystate[e.keyCode]
+        });
+
+        init();
+
+        var loop = function(){
+            update();
+            draw();
+            window.requestAnimationFrame(loop, canvas)
+        }
+        window.requestAnimationFrame(loop, canvas)
+    }
+    function init(){
+        player.x = player.width;
+        player.y = (HEIGHT - player.height)/2;
+
+        ai.x = WIDTH - (player.width + ai.width);
+        ai.y = (HEIGHT - ai.height)/2;
+
+        ball.serve(1)
+    }
+    function update(){
+        ball.update();
+        player.update();
+        ai.update()
+    }
+    function draw(){
+        ctx.fillRect(0,0, WIDTH, HEIGHT);
+
+        ctx.save();
+        ctx.fillStyle = '#fff';
+
+        ball.draw();
+        player.draw();
+        ai.draw();
+
+        var w = 4, x = (WIDTH - w)*0.5, y = 0, step = HEIGHT/20;
+        while(y < HEIGHT){
+            ctx.fillRect(x, y+step*.25, w, step*0.5);
+            y += step;
+        }
+
+        ctx.restore()
+
+    }
+    index()
+
+</script>
